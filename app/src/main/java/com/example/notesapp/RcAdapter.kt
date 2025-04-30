@@ -8,17 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.adwikatest.data.Note
 import com.example.notesapp.R
-import com.example.adwikatest.data.Note // Assuming your Note class is in this package
 
 class RcAdapter(context: Context) : ListAdapter<Note, RcAdapter.ViewHolder>(DiffCallback()) {
 
     private val inflater = LayoutInflater.from(context)
 
-    // ViewHolder class
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.textvie) // Assuming your TextView's id for title
-        val contentTextView: TextView = itemView.findViewById(R.id.textviewContent) // Assuming your TextView's id for content
+        val titleTextView: TextView = itemView.findViewById(R.id.textviewTitle)
+        val contentTextView: TextView = itemView.findViewById(R.id.textviewContent)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,19 +25,13 @@ class RcAdapter(context: Context) : ListAdapter<Note, RcAdapter.ViewHolder>(Diff
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note = getItem(position) // Get the Note object at the given position
-        holder.titleTextView.text = note.title // Set title
-        holder.contentTextView.text = note.content // Set content
+        val note = getItem(position)
+        holder.titleTextView.text = note.title
+        holder.contentTextView.text = note.content
     }
 
-    // DiffCallback to compare Notes
     class DiffCallback : DiffUtil.ItemCallback<Note>() {
-        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem == newItem // Assuming that Notes have correct equals implementation
-        }
-
-        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean = oldItem == newItem
     }
 }

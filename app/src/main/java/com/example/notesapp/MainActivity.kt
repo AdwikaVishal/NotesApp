@@ -2,12 +2,10 @@ package com.example.notesapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import com.example.adwikatest.AdwikaFragment
+import com.example.adwikatest.NoteFragment
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -18,8 +16,13 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, AdwikaFragment()).commit()
+        val openFragmentButton:Button = findViewById(R.id.add_btn)
+        openFragmentButton.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view, NoteFragment())
+                .commit()
+        }
+
 
 
     }

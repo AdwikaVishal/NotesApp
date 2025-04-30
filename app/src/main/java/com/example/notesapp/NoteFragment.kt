@@ -1,5 +1,4 @@
 package com.example.adwikatest
-
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -15,7 +14,7 @@ import com.example.notesapp.R
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class AdwikaFragment : Fragment(R.layout.fragment_adwika) {
+class NoteFragment : Fragment(R.layout.fragment_adwika) {
 
     private lateinit var viewModel: NoteViewModel
     private lateinit var adapter: RcAdapter
@@ -23,29 +22,40 @@ class AdwikaFragment : Fragment(R.layout.fragment_adwika) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the database and repository
         val db = NoteDatabase.getDatabase(requireContext())
         val repository = NoteRepository(db.noteDao())
+        viewModel =
+            ViewModelProvider(this, NoteViewModelFactory(repository)).get(NoteViewModel::class.java)
 
-        // Initialize the ViewModel using the ViewModelProvider
-        viewModel = ViewModelProvider(this, NoteViewModelFactory(repository)).get(NoteViewModel::class.java)
-
-        // Set up RecyclerView and Adapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
-        adapter = RcAdapter(context = requireContext()) // Provide proper context here
+        adapter = RcAdapter(context = requireContext())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        // Collect notes and update the adapter
+        // Observe the list of notes
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.notes.collectLatest { notes ->
                 adapter.submitList(notes)
             }
         }
 
-        // Set up Add Note button click listener
-        view.findViewById<Button>(R.id.add_btn).setOnClickListener {
-            viewModel.addNote("Sample Title", "Sample Content")
+        // Reference to EditTexts and Button
+        val titleInput = view.findViewById<android.widget.EditText>(R.id.editTextTitle)
+        val contentInput = view.findViewById<android.widget.EditText>(R.id.editTextContent)
+        val addButton = view.findViewById<Button>(R.id.add_btn)
+
+        // Save the note from user input
+        addButton.setOnClickListener {
+            val title = titleInput.text.toString().trim()
+            val content = contentInput.text.toString().trim()
+
+            if (title.isNotEmpty() && content.isNotEmpty()) {
+                viewModel.addNote(title, content)
+
+                // Clear fields after saving
+                titleInput.text.clear()
+                contentInput.text.clear()
+            }
         }
     }
 }

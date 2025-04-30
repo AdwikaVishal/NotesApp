@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textviewItem"
-        android:layout_width="wrap_content"
+    <!-- Toolbar for the Fragment -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cyan"
+        android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Add Note"
+        app:titleTextColor="@android:color/black" />
+
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Example text"/>
+        android:layout_marginTop="16dp"
+        android:hint="Note Title"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="text"/>
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/sw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/editTextContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Note Content"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textMultiLine"
+        android:minHeight="200dp"
+        android:gravity="top|start"
+        android:scrollbars="vertical"/>
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Save Note"
+        android:background="@color/cyan"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:textSize="18sp"/>
 
 </LinearLayout>
